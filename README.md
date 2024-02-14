@@ -1,40 +1,28 @@
 # Scaling Spring Boot: A Guide to Efficient Deployment with Docker and Nginx Load Balancer
 
-## Create a Simple Spring Boot Project
+Welcome to the Spring Boot "Nginx" project! This is a simple project that demonstrates the way of scaling a Spring Boot Application using Nginx as a Load Balancer.
 
-> Go to [https://start.spring.io/](https://start.spring.io/)  & initialize a project with just one dependency `spring web` with packaging `war`
-> 
+## Table of Contents
 
-### Controller
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Dockerizing the Project](#dockerizing-the-project)
+- [Editing Nginx Config](#editing-nginx-config)
+- [Check if Nginx Load Balancer is Working](#check-if-nginx-load-balancer-is-working)
+- [Contributing](#contributing)
+- [License](#license)
 
-```java
-package com.example.nginx.controller;
+## Introduction
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+This project serves as a starting point for understanding how to scale a basic Spring Boot application using Docker for Containerization and Nginx for Load Balancing. It includes the necessary setup and dependencies to quickly get you up and running.
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+## Prerequisites
 
-@RestController
-public class HelloController {
+Before you begin, ensure you have met the following requirements:
 
-    @GetMapping("/")
-    public String helloWorld() {
-        return "Hello World";
-    }
-
-    @GetMapping("/check")
-    public String check() {
-        try {
-            return "Container ID: " + InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return "checking failed";
-    }
-}
-```
+- Java Development Kit (JDK) installed (version 17 or higher)
+- Maven build tool installed
+- Nginx, Docker installed
 
 ## Dockerizing the Project
 
@@ -50,7 +38,7 @@ ENTRYPOINT ["java", "-jar", "/opt/app/app.war"]
 ### **Build the WAR file**
 
 ```bash
-mvn clean package 
+mvn clean package
 ```
 
 ### **Build the Docker image**
@@ -60,7 +48,7 @@ docker build -t nginx .
 ```
 
 > Go to the project directory and run these above commands
-> 
+>
 
 ### **Run the Docker container**
 
@@ -71,7 +59,7 @@ docker run -d -p 3333:8080 nginx:latest
 ```
 
 > Run 3 containers with the Docker image
-> 
+>
 
 ## Editing Nginx Config
 
@@ -99,7 +87,7 @@ events {}
 ```
 
 > Go to `/etc/nginx` & edit `nginx.conf` file with the above config & restart `nginx`
-> 
+>
 
 ## Check if Nginx Load Balancer is Working
 
@@ -108,7 +96,27 @@ curl http://localhost:8080/check
 ```
 
 > Check if the response contains different container identifiers.
-> 
-> 
+>
+>
 > By combining these steps, you should be able to determine whether `Nginx` is successfully `round-robin distributing requests` among your Spring Boot containers.
 >
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, follow these steps:
+
+1. Fork the project from the GitHub repository.
+2. Create a new branch with a descriptive name.
+3. Make your desired changes.
+4. Commit and push your changes to your fork.
+5. Create a pull request detailing your changes.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+Happy coding!
+
+For more information about Spring Boot, visit the [official documentation](https://spring.io/projects/spring-boot).
